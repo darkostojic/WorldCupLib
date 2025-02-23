@@ -7,6 +7,7 @@ import org.worldcup.model.MatchStatus;
 import org.worldcup.model.Team;
 import org.worldcup.service.StorageService;
 import org.worldcup.service.WorldCupService;
+import org.worldcup.util.MatchSorter;
 import org.worldcup.util.Validator;
 
 import java.time.LocalDateTime;
@@ -54,14 +55,14 @@ public class WorldCupServiceImpl implements WorldCupService {
     @Override
     public List<Match> getAllLiveMatches() {
         List<Match> matches = storageService.getAllLiveMatches();
-        //TODO sort
+        MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
         return matches;
     }
 
     @Override
     public List<Match> getAllFinishedMatches() {
         List<Match> matches = storageService.getAllLiveMatches();
-        //TODO sort
+        MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
         return matches;
     }
 }
