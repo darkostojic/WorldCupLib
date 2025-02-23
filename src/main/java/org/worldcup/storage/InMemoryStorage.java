@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class InMemoryStorage {
 
-    private static final Map<String, Match> MATCHES = new HashMap<>();
+    private static Map<String, Match> MATCHES = new HashMap<>();
     private final static String ID_PREFIX = "M_";
     private static Integer ID_SEQUENCE = 1;
 
@@ -34,6 +34,11 @@ public class InMemoryStorage {
         String nextId = ID_PREFIX + String.format("%04d", ID_SEQUENCE);
         ID_SEQUENCE++;
         return nextId;
+    }
+
+    public static void emptyStorage() {
+        MATCHES = new HashMap<>();
+        ID_SEQUENCE = 1;
     }
 
 }
