@@ -1,11 +1,13 @@
 package org.worldcup.impl;
 
+import org.worldcup.exception.IllegalScoreException;
 import org.worldcup.exception.NoMatchFoundException;
 import org.worldcup.model.Match;
 import org.worldcup.model.MatchStatus;
 import org.worldcup.model.Team;
 import org.worldcup.service.StorageService;
 import org.worldcup.service.WorldCupService;
+import org.worldcup.util.Validator;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,12 +31,13 @@ public class WorldCupServiceImpl implements WorldCupService {
     }
 
     @Override
-    public void updateMatchScore(String matchId, Integer homeTeamScore, Integer awayTeamScore) throws NoMatchFoundException {
+    public void updateMatchScore(String matchId, Integer homeTeamScore, Integer awayTeamScore)
+            throws NoMatchFoundException, IllegalScoreException {
         Match match = storageService.getMatch(matchId);
         if(match == null || match.getMatchStatus().equals(MatchStatus.FINISHED)) {
             throw new NoMatchFoundException("No live match found for id: " + matchId);
         }
-        //TODO validate
+        Validator.validateNewMatchScore(match, homeTeamScore, awayTeamScore);
         storageService.updateMatchScore(match, homeTeamScore, awayTeamScore);
     }
 
