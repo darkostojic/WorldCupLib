@@ -1,6 +1,7 @@
 package org.worldcup.impl;
 
 import org.worldcup.exception.IllegalScoreException;
+import org.worldcup.exception.MatchAlreadyExistException;
 import org.worldcup.exception.NoMatchFoundException;
 import org.worldcup.model.Match;
 import org.worldcup.model.MatchStatus;
@@ -22,12 +23,12 @@ public class WorldCupServiceImpl implements WorldCupService {
     }
 
     @Override
-    public String startMatch(String homeTeamName, String awayTeamName) {
+    public String startMatch(String homeTeamName, String awayTeamName) throws MatchAlreadyExistException {
         Team homeTeam = new Team(homeTeamName, 0);
         Team awayTeam = new Team(awayTeamName, 0);
 
         Match match = new Match(homeTeam, awayTeam, LocalDateTime.now(), MatchStatus.LIVE);
-        //TODO check if already started
+
         return storageService.addNewMatch(match);
     }
 
@@ -55,14 +56,12 @@ public class WorldCupServiceImpl implements WorldCupService {
     @Override
     public List<Match> getAllLiveMatches() {
         List<Match> matches = storageService.getAllLiveMatches();
-        MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
-        return matches;
+        return MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
     }
 
     @Override
     public List<Match> getAllFinishedMatches() {
-        List<Match> matches = storageService.getAllLiveMatches();
-        MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
-        return matches;
+        List<Match> matches = storageService.getAllFinishedMatches();
+        return MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
     }
 }
