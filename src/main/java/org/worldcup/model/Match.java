@@ -9,14 +9,16 @@ public class Match {
     private Team awayTeam;
     private LocalDateTime matchStart;
     private LocalDateTime matchFinish;
+    private MatchStatus matchStatus;
 
     public Match() {
     }
 
-    public Match(Team homeTeam, Team awayTeam, LocalDateTime matchStart) {
+    public Match(Team homeTeam, Team awayTeam, LocalDateTime matchStart, MatchStatus matchStatus) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.matchStart = matchStart;
+        this.matchStatus = matchStatus;
     }
 
     public String getId() {
@@ -57,5 +59,13 @@ public class Match {
 
     public void setMatchFinish(LocalDateTime matchFinish) {
         this.matchFinish = matchFinish;
+    }
+
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
+    }
+
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
     }
 }
