@@ -1,0 +1,20 @@
+<configuration>
+
+    <!-- Console Appender -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - [%level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger with Console Appender -->
+    <root level="INFO">
+        <appender-ref ref="Console" />
+    </root>
+
+    <!-- You can specify different log levels for specific classes or packages -->
+    <logger name="org.worldcup" level="DEBUG">
+        <appender-ref ref="Console" />
+    </logger>
+
+</configuration>

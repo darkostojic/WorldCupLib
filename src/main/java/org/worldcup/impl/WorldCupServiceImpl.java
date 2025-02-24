@@ -1,5 +1,7 @@
 package org.worldcup.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.worldcup.exception.IllegalScoreException;
 import org.worldcup.exception.MatchAlreadyExistException;
 import org.worldcup.exception.NoMatchFoundException;
@@ -16,6 +18,8 @@ import java.util.List;
 
 public class WorldCupServiceImpl implements WorldCupService {
 
+    private static final Logger logger = LoggerFactory.getLogger(WorldCupServiceImpl.class);
+
     private final StorageService storageService;
 
     public WorldCupServiceImpl() {
@@ -24,6 +28,8 @@ public class WorldCupServiceImpl implements WorldCupService {
 
     @Override
     public String startMatch(String homeTeamName, String awayTeamName) throws MatchAlreadyExistException {
+        logger.info("Starting match between {} and {}", homeTeamName, awayTeamName);
+
         Team homeTeam = new Team(homeTeamName, 0);
         Team awayTeam = new Team(awayTeamName, 0);
 
@@ -40,6 +46,8 @@ public class WorldCupServiceImpl implements WorldCupService {
     @Override
     public void updateMatchScore(String matchId, Integer homeTeamScore, Integer awayTeamScore)
             throws NoMatchFoundException, IllegalScoreException {
+        logger.debug("Updating match {} with scores: Home - {}, Away - {}", matchId, homeTeamScore, awayTeamScore);
+
         Match match = storageService.getMatch(matchId);
         if(match == null || match.getMatchStatus().equals(MatchStatus.FINISHED)) {
             throw new NoMatchFoundException("No live match found for id: " + matchId);
@@ -50,6 +58,8 @@ public class WorldCupServiceImpl implements WorldCupService {
 
     @Override
     public void finishMatch(String matchId) throws NoMatchFoundException {
+        logger.error("Error finishing match: {}", matchId);
+
         Match match = storageService.getMatch(matchId);
         if(match == null || match.getMatchStatus().equals(MatchStatus.FINISHED)) {
             throw new NoMatchFoundException("No live match found for id: " + matchId);
@@ -60,12 +70,16 @@ public class WorldCupServiceImpl implements WorldCupService {
 
     @Override
     public List<Match> getAllLiveMatches() {
+        logger.error("Get all live matches");
+
         List<Match> matches = storageService.getAllLiveMatches();
         return MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
     }
 
     @Override
     public List<Match> getAllFinishedMatches() {
+        logger.error("Get all finished matches");
+
         List<Match> matches = storageService.getAllFinishedMatches();
         return MatchSorter.sortMatchesByScoreSumAndStartTime(matches);
     }
