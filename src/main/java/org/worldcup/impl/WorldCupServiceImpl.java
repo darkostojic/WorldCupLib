@@ -27,6 +27,11 @@ public class WorldCupServiceImpl implements WorldCupService {
         Team homeTeam = new Team(homeTeamName, 0);
         Team awayTeam = new Team(awayTeamName, 0);
 
+        Match existingMatch = storageService.getLiveMatchByTeamNames(homeTeamName, awayTeamName);
+        if(existingMatch != null) {
+            throw new MatchAlreadyExistException("Match is in progress.");
+        }
+
         Match match = new Match(homeTeam, awayTeam, LocalDateTime.now(), MatchStatus.LIVE);
 
         return storageService.addNewMatch(match);

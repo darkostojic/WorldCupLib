@@ -26,6 +26,18 @@ public class InMemoryStorageServiceImpl implements StorageService {
     }
 
     @Override
+    public Match getLiveMatchByTeamNames(String homeTeamName, String awayTeamName) {
+        return InMemoryStorage.getAllMatches()
+                .values()
+                .stream()
+                .filter(match -> match.getMatchStatus() == MatchStatus.LIVE)
+                .filter(match -> match.getHomeTeam().getName().equalsIgnoreCase(homeTeamName) &&
+                        match.getAwayTeam().getName().equalsIgnoreCase(awayTeamName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public List<Match> getAllLiveMatches() {
         return InMemoryStorage.getAllMatches()
                 .values()

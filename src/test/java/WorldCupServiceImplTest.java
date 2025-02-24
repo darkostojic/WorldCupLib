@@ -48,6 +48,18 @@ public class WorldCupServiceImplTest {
     }
 
     @Test
+    void testStartMatch_MatchAlreadyExist() throws MatchAlreadyExistException {
+        String homeTeam = "Team A";
+        String awayTeam = "Team B";
+        worldCupService.startMatch(homeTeam, awayTeam);
+
+        assertThrows(MatchAlreadyExistException.class, () -> {
+            worldCupService.startMatch(homeTeam, awayTeam);
+        });
+
+    }
+
+    @Test
     void testUpdateMatchScore_Success() throws NoMatchFoundException, IllegalScoreException, MatchAlreadyExistException {
         String homeTeam = "Team A";
         String awayTeam = "Team B";
