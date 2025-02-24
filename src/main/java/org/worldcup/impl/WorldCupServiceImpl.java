@@ -27,8 +27,15 @@ public class WorldCupServiceImpl implements WorldCupService {
     }
 
     @Override
-    public String startMatch(String homeTeamName, String awayTeamName) throws MatchAlreadyExistException {
+    public String startMatch(String homeTeamName, String awayTeamName) throws MatchAlreadyExistException, IllegalArgumentException {
         logger.info("Starting match between {} and {}", homeTeamName, awayTeamName);
+
+        if (homeTeamName == null || awayTeamName == null || homeTeamName.isBlank() || awayTeamName.isBlank()) {
+            throw new IllegalArgumentException("Team names must not be null or empty.");
+        }
+        if (homeTeamName.equalsIgnoreCase(awayTeamName)) {
+            throw new IllegalArgumentException("Home and away teams must be different.");
+        }
 
         Team homeTeam = new Team(homeTeamName, 0);
         Team awayTeam = new Team(awayTeamName, 0);
