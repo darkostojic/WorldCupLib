@@ -16,8 +16,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
     implementation 'org.slf4j:slf4j-api:2.0.0-alpha1'
-    implementation 'ch.qos.logback:logback-classic:1.4.0'
-    implementation 'ch.qos.logback:logback-core:1.4.0'
+    implementation 'ch.qos.logback:logback-classic:1.5.16'
+    implementation 'ch.qos.logback:logback-core:1.5.16'
 }
 
 test {
@@ -28,9 +28,12 @@ javadoc {
     options.addStringOption('encoding', 'UTF-8')
 }
 
-task packLib(type: Jar) {
+tasks.register('packLib', Jar) {
     archiveBaseName.set("worldcup-library")
     archiveVersion.set("1.0.0")
+
     from sourceSets.main.output
     from sourceSets.main.resources
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
