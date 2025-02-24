@@ -96,6 +96,7 @@ public class WorldCupServiceImplTest {
 
     @Test
     void testGetAllLiveMatches_Success() throws MatchAlreadyExistException, NoMatchFoundException, IllegalScoreException {
+        //one test to rule them all
         //all teams are selected randomly and have no connection to real events
 
         Team homeTeam = new Team("Croatia", 0);

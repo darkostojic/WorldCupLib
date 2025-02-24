@@ -19,3 +19,14 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+javadoc {
+    options.addStringOption('encoding', 'UTF-8')
+}
+
+task packLib(type: Jar) {
+    archiveBaseName.set("worldcup-library")
+    archiveVersion.set("1.0.0")
+    from sourceSets.main.output
+    from sourceSets.main.resources
+}
